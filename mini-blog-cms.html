@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Blogger Post</title>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      font-family: Verdana;
+      font-size: 13px;
+      color: #BBB;
+    }
+    
+    body {
+      background-color: #000;
+    }
+    
+    .CSS_CLEAR_BOTH_NO_HEIGHT {
+      height: 0;
+      overflow: hidden;
+      clear: both
+    }
+    
+    #content {
+      border: 1px solid #333;
+      max-width: 670px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    
+    #content-table,
+    #content-table textarea {
+      width: 100%;
+    }
+    
+    #content-table textarea {
+      height: 300px;
+    }
+    
+    thead th {
+      text-align: left;
+      padding-left: 1em;
+    }
+    
+    table#content-table {
+      border-spacing: 0px;
+      border-collapse: collapse;
+    }
+    
+    table#content-table td {
+      padding-left: 4px;
+    }
+    
+    table#content-table td:first-child {
+      padding-left: 0px;
+      padding-right: 4px;
+    }
+    
+    hr {
+      height: 0;
+      border: 0;
+      border-top: solid 1px #333;
+    }
+  </style>
+
+  <style>
+    .image-row-holder {
+      padding-top: 1em;
+      text-align: center;
+    }
+    
+    .image-row-holder div:first-child {
+      display: inline-block;
+    }
+    
+    .image-cell {
+      float: left;
+      padding: 0 0.5em 0.5em 0.5em;
+    }
+    
+    .image-cell a {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .image-cell a img {
+      height: 130px;
+    }
+    
+    .image-cell span {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <table id="content-table">
+      <thead>
+        <tr>
+          <th>Slike iz bloga</th>
+          <th>Slike za blog</th>
+        </tr>
+      </thead>
+      <tr>
+        <td>
+          <textarea id="inputText" name="inputText">
+          </textarea>
+        </td>
+        <td>
+          <textarea id="resultText">
+          </textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Združi slike po:
+          <input id="numbOfImg" name="numbOfImg" type="number" value="3" style="width: 50px;" />
+          <button onclick="convert(numbOfImg.value);" />Pretvori</button>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-top: 4px;">
+          Nastavi širino slike:
+          <input id="imgWidth" name="imgWidth" type="number" value="80" style="width: 50px;" />%
+          <button onclick="convert(1, imgWidth.value);" />Pretvori</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <hr />
+
+  <div id="content">
+    <div id="hiddenImg" style="width: 0px; height: 0px; display: none;"></div>
+    <div id="result"></div>
+
+    <script>
+      function convert(numbOfImg, singleImageWidth) {
+
+        var inputValue = inputText.value;
+        document.getElementById('hiddenImg').innerHTML = inputValue;
+        var inputImgs = toArray(document.getElementById('hiddenImg').getElementsByTagName('a'));
+
+        var lists = toGroupArray(numbOfImg, inputImgs);
+
+        var resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = "";
+        for (itm in lists) {
+          var imgArray = lists[itm];
+          var imageRowHolder = document.createElement('div');
+          imageRowHolder.setAttribute('class', 'image-row-holder');
+          var centerDiv = document.createElement('div');
+          centerDiv.setAttribute('class', 'center-div');
+          for (i = 0; i < imgArray.length; i++) {
+            var imageCell = document.createElement('div');
+            imageCell.setAttribute('class', 'image-cell');
+            var imgElement = imgArray[i];
+            if (singleImageWidth !== undefined) { // Add style for single image
+              imgElement.getElementsByTagName('img')[0].style = 'width: ' + singleImageWidth + '%; height: auto;';
+              imgElement.getElementsByTagName('img')[0].src = imgElement.href;
+            }
+            imageCell.appendChild(imgElement);
+            imageCell.appendChild(document.createElement('span'));
+            centerDiv.appendChild(imageCell);
+          } // end for
+          var clearDiv = document.createElement('div');
+          clearDiv.setAttribute('class', 'CSS_CLEAR_BOTH_NO_HEIGHT-cell');
+          centerDiv.appendChild(clearDiv);
+          imageRowHolder.appendChild(centerDiv);
+          resultDiv.appendChild(imageRowHolder);
+        } // end for
+
+        document.getElementById('resultText').textContent = resultDiv.innerHTML;
+      }
+
+      function toArray(obj) {
+        var array = [];
+        for (var i = obj.length >>> 0; i--;) {
+          array[i] = obj[i];
+        }
+        return array;
+      }
+
+      function toGroupArray(itemInGroup, inputArray) {
+        var out = [],
+          i = 0,
+          n = Math.ceil((inputArray.length) / itemInGroup);
+        while (i < n) {
+          out.push(inputArray.splice(0, (i == n - 1) && itemInGroup < inputArray.length ? inputArray.length : itemInGroup));
+          i++;
+        }
+        return out;
+      }
+    </script>
+  </div>
+</body>
+
+</html>
