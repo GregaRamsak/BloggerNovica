@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled Document</title>
+  <style>
+    [draggable],
+    img {
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -khtml-user-drag: element;
+      -webkit-user-drag: element;
+    }
+    
+    .image-cell {
+      border: 1px solid transparent;
+    }
+    
+    .image-cell.over {
+      border: 1px solid green;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+  <script>
+    var dragingElementId;
+
+    function generateUUID() {
+      var d = new Date().getTime();
+      if (window.performance && typeof window.performance.now === "function") {
+        d += performance.now(); //use high-precision timer if available
+      }
+      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+      return uuid;
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="image-row-holder">
+    <div class="center-div">
+      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39927" class="image-cell" draggable="true">
+        <a href="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s1600/DSC03157%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s320/DSC03157%2B%2528Custom%2529.JPG">
+        </a><span>Test 1</span>
+      </div>
+      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39928" class="image-cell" draggable="true">
+        <a href="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s1600/DSC03161%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s320/DSC03161%2B%2528Custom%2529.JPG">
+        </a><span>Test 2</span>
+      </div>
+      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39929" class="image-cell" draggable="true">
+        <a href="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s1600/DSC03172%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s320/DSC03172%2B%2528Custom%2529.JPG">
+        </a><span>Test 3</span>
+      </div>
+      <div class="CSS_CLEAR_BOTH_NO_HEIGHT-cell"></div>
+    </div>
+  </div>
+
+  <script>
+    var dragSrcEl = null;
+
+    function handleDragStart(e) {
+      // Target (this) element is the source node.
+      //      this.style.opacity = '0.4';
+
+      dragSrcEl = this;
+
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+      }
+
+      e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
+
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      // this / e.target is the current hover target.
+      this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove('over'); // this / e.target is previous target element.
+    }
+
+    function handleDrop(e) {
+      // this/e.target is current target element.
+
+      if (e.stopPropagation) {
+        e.stopPropagation(); // Stops some browsers from redirecting.
+      }
+
+      // Don't do anything if dropping the same column we're dragging.
+      if (dragSrcEl != this) {
+        // Set the source column's HTML to the HTML of the column we dropped on.
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+        //        this.style.opacity = '1';
+      }
+
+      return false;
+    }
+
+    function handleDragEnd(e) {
+      // this/e.target is the source node.
+
+    [].forEach.call(cols, function (col) {
+        col.classList.remove('over');
+      });
+    }
+
+    var cols = document.querySelectorAll('.image-cell');
+    [].forEach.call(cols, function (col) {
+      col.addEventListener('dragstart', handleDragStart, false);
+      col.addEventListener('dragenter', handleDragEnter, false)
+      col.addEventListener('dragover', handleDragOver, false);
+      col.addEventListener('dragleave', handleDragLeave, false);
+      col.addEventListener('drop', handleDrop, false);
+      col.addEventListener('dragend', handleDragEnd, false);
+    });
+  </script>
+
+</body>
+
+</html>
