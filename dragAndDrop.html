@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Untitled Document</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
   <style>
     [draggable],
     img {
@@ -15,15 +16,15 @@
       -webkit-user-drag: element;
     }
     
-    .image-cell {
-      border: 1px solid transparent;
+    .image-cell a,
+    .image-cell img {
+      pointer-events: none;
     }
     
-    .image-cell.over {
-      border: 1px solid green;
+    .image-cell span:hover {
+      background: #555;
     }
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
   <script>
     var dragingElementId;
@@ -40,85 +41,118 @@
       });
       return uuid;
     }
+
+    function hasClass(element, cls) {
+      return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+    }
   </script>
 </head>
 
 <body>
+  <div id="content">
+    <div class="image-row-holder">
+      <div class="center-div">
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39927" class="image-cell" draggable="true">
+          <a href="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s1600/DSC03157%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s320/DSC03157%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 1</span>
+        </div>
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39928" class="image-cell" draggable="true">
+          <a href="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s1600/DSC03161%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s320/DSC03161%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 2</span>
+        </div>
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39929" class="image-cell" draggable="true">
+          <a href="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s1600/DSC03172%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s320/DSC03172%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 3</span>
+        </div>
+      </div>
+      <div class="CSS_CLEAR_BOTH_NO_HEIGHT-cell"></div>
+    </div>
 
-  <div class="image-row-holder">
-    <div class="center-div">
-      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39927" class="image-cell" draggable="true">
-        <a href="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s1600/DSC03157%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s320/DSC03157%2B%2528Custom%2529.JPG">
-        </a><span>Test 1</span>
-      </div>
-      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39928" class="image-cell" draggable="true">
-        <a href="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s1600/DSC03161%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s320/DSC03161%2B%2528Custom%2529.JPG">
-        </a><span>Test 2</span>
-      </div>
-      <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39929" class="image-cell" draggable="true">
-        <a href="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s1600/DSC03172%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s320/DSC03172%2B%2528Custom%2529.JPG">
-        </a><span>Test 3</span>
+    <div class="image-row-holder">
+      <div class="center-div">
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39930" class="image-cell" draggable="true">
+          <a href="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s1600/DSC03157%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s320/DSC03157%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 4</span>
+        </div>
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39931" class="image-cell" draggable="true">
+          <a href="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s1600/DSC03161%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s320/DSC03161%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 5</span>
+        </div>
+        <div id="e20c3db7-ad5e-49c2-997d-8c60e8d39932" class="image-cell" draggable="true">
+          <a href="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s1600/DSC03172%2B%2528Custom%2529.JPG" imageanchor="1">
+            <img border="0" src="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s320/DSC03172%2B%2528Custom%2529.JPG">
+          </a>
+          <span>Test 6</span>
+        </div>
       </div>
       <div class="CSS_CLEAR_BOTH_NO_HEIGHT-cell"></div>
     </div>
   </div>
+  <br>
+  <br>
+  <button onclick="result.innerHTML = content.innerHTML;">Return</button>
+  <div id="result"></div>
 
   <script>
     var dragSrcEl = null;
 
     function handleDragStart(e) {
-      // Target (this) element is the source node.
-      //      this.style.opacity = '0.4';
-
       dragSrcEl = this;
-
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/html', this.innerHTML);
+      e.dataTransfer.setData('text', this.id);
     }
 
     function handleDragOver(e) {
       if (e.preventDefault) {
-        e.preventDefault(); // Necessary. Allows us to drop.
+        e.preventDefault();
       }
-
-      e.dataTransfer.dropEffect = 'move'; // See the section on the DataTransfer object.
-
+      e.dataTransfer.dropEffect = 'move';
       return false;
     }
 
     function handleDragEnter(e) {
-      // this / e.target is the current hover target.
       this.classList.add('over');
     }
 
     function handleDragLeave(e) {
-      this.classList.remove('over'); // this / e.target is previous target element.
+      this.classList.remove('over');
     }
 
     function handleDrop(e) {
-      // this/e.target is current target element.
-
       if (e.stopPropagation) {
-        e.stopPropagation(); // Stops some browsers from redirecting.
+        e.stopPropagation();
       }
-
-      // Don't do anything if dropping the same column we're dragging.
       if (dragSrcEl != this) {
-        // Set the source column's HTML to the HTML of the column we dropped on.
-        dragSrcEl.innerHTML = this.innerHTML;
-        this.innerHTML = e.dataTransfer.getData('text/html');
-        //        this.style.opacity = '1';
+        if (e.ctrlKey) {
+          this.parentElement.appendChild(document.getElementById(e.dataTransfer.getData('text')));
+        } else {
+          dragSrcEl.innerHTML = this.innerHTML;
+          this.innerHTML = e.dataTransfer.getData('text/html');
+        }
       }
 
       return false;
     }
 
     function handleDragEnd(e) {
-      // this/e.target is the source node.
-
-    [].forEach.call(cols, function (col) {
+      [].forEach.call(cols, function (col) {
         col.classList.remove('over');
       });
+    }
+
+    function handleClick(e) {
+      console.log("Test click on: " + e.target.id);
     }
 
     var cols = document.querySelectorAll('.image-cell');
@@ -129,6 +163,7 @@
       col.addEventListener('dragleave', handleDragLeave, false);
       col.addEventListener('drop', handleDrop, false);
       col.addEventListener('dragend', handleDragEnd, false);
+      col.addEventListener('click', handleClick, false);
     });
   </script>
 

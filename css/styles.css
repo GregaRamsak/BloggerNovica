@@ -1,0 +1,94 @@
+* {
+  font-family: Verdana;
+  font-size: 13px;
+  color: #BBB;
+}
+
+body {
+  background-color: #000;
+}
+
+.CSS_CLEAR_BOTH_NO_HEIGHT {
+  height: 0;
+  overflow: hidden;
+  clear: both
+}
+
+#content {
+  border: 1px solid #333;
+  max-width: 670px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+#content-table,
+#content-table textarea {
+  width: 100%;
+}
+
+#content-table textarea {
+  height: 100px;
+}
+
+thead th {
+  text-align: left;
+  padding-left: 1em;
+}
+
+table#content-table {
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+table#content-table td {
+  padding-left: 4px;
+}
+
+table#content-table td:first-child {
+  padding-left: 0px;
+  padding-right: 4px;
+}
+
+hr {
+  height: 0;
+  border: 0;
+  border-top: solid 1px #333;
+}
+
+.post-text {
+  width: 100%;
+  display: block;
+  background-color: #000000;
+}
+
+.signature-text {
+  color: #999999;
+  font-family: monospace;
+  text-align: right;
+}
+
+
+/* --- Dragging --- */
+
+[draggable],
+img {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.image-cell a,
+.image-cell img {
+  pointer-events: none;
+}
+
+.image-cell span:hover {
+  background: #555;
+}
+
+
+/* --- Dragging --- End */

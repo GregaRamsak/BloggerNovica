@@ -1,0 +1,26 @@
+    .image-row-holder {
+      padding-top: 1em;
+      text-align: center;
+    }
+    
+    .image-row-holder div:first-child {
+      display: inline-block;
+    }
+    
+    .image-cell {
+      float: left;
+      padding: 0 0.5em 0.5em 0.5em;
+    }
+    
+    .image-cell a {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .image-cell a img {
+      height: 130px;
+    }
+    
+    .image-cell span {
+      display: block;
+    }
