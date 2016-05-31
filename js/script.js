@@ -19,6 +19,7 @@ function convert(numbOfImg, singleImageWidth) {
     for (i = 0; i < imgArray.length; i++) {
       var imageCell = document.createElement('div');
       imageCell.setAttribute('id', generateUUID());
+      imageCell.setAttribute('title', 'Klikni za večjo sliko.');
       imageCell.setAttribute('class', 'image-cell');
       imageCell.setAttribute('draggable', 'true');
       var imgElement = imgArray[i];
@@ -27,7 +28,9 @@ function convert(numbOfImg, singleImageWidth) {
         imgElement.getElementsByTagName('img')[0].src = imgElement.href;
       }
       imageCell.appendChild(imgElement);
-      imageCell.appendChild(document.createElement('span'));
+      var imgCaption = document.createElement('span');
+      // imgCaption.innerHTML = 'Text';
+      imageCell.appendChild(imgCaption);
       centerDiv.appendChild(imageCell);
     } // end for
     var clearDiv = document.createElement('div');
@@ -42,6 +45,16 @@ function convert(numbOfImg, singleImageWidth) {
   document.getElementById('resultText').textContent = resultDiv.innerHTML;
 
   prepareDraging();
+
+  insertCreatePostBtn();
+}
+
+function insertCreatePostBtn() {
+  var createPostBtn = document.createElement('button');
+  document.getElementById('result').appendChild(document.createElement('hr'));
+  createPostBtn.setAttribute('onclick', 'createPost();');
+  createPostBtn.innerHTML = 'Ustvari post';
+  document.getElementById('result').appendChild(createPostBtn);
 }
 
 function toArray(obj) {
@@ -88,10 +101,10 @@ function insertAfter(newNode, referenceNode) {
 
 /* --- Convert to bigger image  --- */
 
-function convertToBiggerImg(imgHolderElement, imageWidth) {
-  // resultDiv.appendChild(createTextArea());
+function convertToBiggerImg(imgHolderElement, imageWidth, below) { // TODO Revert option; return to old parent
   var imgElement = imgHolderElement.firstChild;
   var imageRowHolder = document.createElement('div');
+  imageRowHolder.setAttribute('id', generateUUID());
   imageRowHolder.setAttribute('class', 'image-row-holder');
   var centerDiv = document.createElement('div');
   centerDiv.setAttribute('class', 'center-div');
@@ -106,16 +119,19 @@ function convertToBiggerImg(imgHolderElement, imageWidth) {
   centerDiv.appendChild(imageCell);
   var clearDiv = document.createElement('div');
   clearDiv.setAttribute('class', 'CSS_CLEAR_BOTH_NO_HEIGHT-cell');
-  // centerDiv.appendChild(clearDiv);
   imageRowHolder.appendChild(centerDiv);
   imageRowHolder.appendChild(clearDiv);
-
-
   var resultDiv = document.getElementById('result');
-  //  resultDiv.appendChild(imageRowHolder);
-  //  resultDiv.appendChild(createTextArea());
-  resultDiv.insertBefore(imageRowHolder, imgHolderElement.parentElement.parentElement);
-  resultDiv.insertBefore(createTextArea(), imgHolderElement.parentElement.parentElement);
+
+  if (below) {
+    resultDiv.insertBefore(createTextArea(), imgHolderElement.parentElement.parentElement.nextElementSibling.nextElementSibling);
+    resultDiv.insertBefore(imageRowHolder, imgHolderElement.parentElement.parentElement.nextElementSibling.nextElementSibling);
+  } else {
+    resultDiv.insertBefore(imageRowHolder, imgHolderElement.parentElement.parentElement);
+    resultDiv.insertBefore(createTextArea(), imgHolderElement.parentElement.parentElement);
+  }
+  
+  imgHolderElement.parentNode.removeChild(imgHolderElement);
 }
 
 /* --- Convert to bigger image  --- End */
@@ -123,7 +139,32 @@ function convertToBiggerImg(imgHolderElement, imageWidth) {
 /* --- Create post --- */
 
 function createPost() {
-  // TODO 
+  var resultText = document.createElement('textarea');
+  resultText.setAttribute('class', 'post-text');
+  var elements = document.getElementById('result').childNodes;
+  [].forEach.call(elements, function (element) {
+    if (element.tagName === 'DIV') {
+      resultText.textContent += getOuterHtml(element);
+    } else if (element.tagName === 'TEXTAREA') {
+      if (hasClass(element, 'signature-text')) {
+        resultText.textContent += '<div style="color: #999999; font-family: monospace; text-align: right;">' + element.value + '</div>';
+      } else {
+        resultText.textContent += '<p>' + element.value + '</p>';
+      }
+    }
+  });
+  document.getElementsByTagName('body')[0].appendChild(resultText);
+}
+
+function getOuterHtml(who) {
+  if (!who || !who.tagName) return '';
+  var txt, ax, el = document.createElement("div");
+  el.appendChild(who.cloneNode(false));
+  txt = el.innerHTML;
+  ax = txt.indexOf('>') + 1;
+  txt = txt.substring(0, ax) + who.innerHTML + txt.substring(ax);
+  el = null;
+  return txt;
 }
 
 /* --- Create post --- End */
@@ -142,6 +183,10 @@ function generateUUID() {
     return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
   return uuid;
+}
+
+function hasClass(element, cls) {
+  return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
 /* --- Util --- End */
@@ -198,8 +243,7 @@ function handleDragEnd(e) {
 }
 
 function handleClick(e) {
-  console.log("Test click on: " + e.target.id);
-  convertToBiggerImg(this, 80);
+  convertToBiggerImg(this, 80, e.altKey);
 }
 
 function prepareDraging() {

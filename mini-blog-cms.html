@@ -45,16 +45,27 @@
       </tr>
       <tr>
         <td>
-          Združi slike po:
-          <input id="numbOfImg" name="numbOfImg" type="number" value="3" style="width: 50px;" />
-          <button onclick="convert(numbOfImg.value);" />Pretvori</button>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding-top: 4px;">
-          Nastavi širino slike:
-          <input id="imgWidth" name="imgWidth" type="number" value="80" style="width: 50px;" />%
-          <button onclick="convert(1, imgWidth.value);" />Pretvori</button>
+
+          <table class="settings">
+            <tr>
+              <td>Združi slike po:</td>
+              <td>
+                <input id="numbOfImg" name="numbOfImg" type="number" value="3" style="width: 50px;" />
+              </td>
+              <td>
+                <button onclick="convert(numbOfImg.value);" />Pretvori</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Nastavi širino slike:</td>
+              <td>
+                <input id="imgWidth" name="imgWidth" type="number" value="80" style="width: 50px;" /> %</td>
+              <td>
+                <button onclick="convert(1, imgWidth.value);" />Pretvori</button>
+              </td>
+            </tr>
+          </table>
+
         </td>
       </tr>
     </table>
