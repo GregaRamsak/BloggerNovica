@@ -1,3 +1,7 @@
+/* --- Constants --- */
+
+var CONSTANT_INSERT_TEXT = 'Vnesi besedilo';
+
 /* --- Img group --- End */
 
 function convert(numbOfImg, singleImageWidth) {
@@ -13,6 +17,7 @@ function convert(numbOfImg, singleImageWidth) {
   for (itm in lists) {
     var imgArray = lists[itm];
     var imageRowHolder = document.createElement('div');
+    imageRowHolder.setAttribute('id', generateUUID());
     imageRowHolder.setAttribute('class', 'image-row-holder');
     var centerDiv = document.createElement('div');
     centerDiv.setAttribute('class', 'center-div');
@@ -29,7 +34,7 @@ function convert(numbOfImg, singleImageWidth) {
       }
       imageCell.appendChild(imgElement);
       var imgCaption = document.createElement('span');
-      // imgCaption.innerHTML = 'Text';
+      imgCaption.appendChild(document.createTextNode(CONSTANT_INSERT_TEXT));
       imageCell.appendChild(imgCaption);
       centerDiv.appendChild(imageCell);
     } // end for
@@ -39,7 +44,7 @@ function convert(numbOfImg, singleImageWidth) {
     imageRowHolder.appendChild(centerDiv);
     imageRowHolder.appendChild(clearDiv);
     resultDiv.appendChild(imageRowHolder);
-    resultDiv.appendChild(createTextArea());
+    resultDiv.appendChild(createTextArea(imageRowHolder.id));
   } // end for
   resultDiv.appendChild(createSignatureTextArea());
   document.getElementById('resultText').textContent = resultDiv.innerHTML;
@@ -52,9 +57,13 @@ function convert(numbOfImg, singleImageWidth) {
 function insertCreatePostBtn() {
   var createPostBtn = document.createElement('button');
   document.getElementById('result').appendChild(document.createElement('hr'));
+  createPostBtn.setAttribute('class', 'create-post-btn');
   createPostBtn.setAttribute('onclick', 'createPost();');
   createPostBtn.innerHTML = 'Ustvari post';
   document.getElementById('result').appendChild(createPostBtn);
+  var clearDiv = document.createElement('span');
+  clearDiv.setAttribute('class', 'clear');
+  document.getElementById('result').appendChild(clearDiv);
 }
 
 function toArray(obj) {
@@ -80,8 +89,11 @@ function toGroupArray(itemInGroup, inputArray) {
 
 /* --- TextArea --- */
 
-function createTextArea() {
+function createTextArea(elementId) {
   var textArea = document.createElement('textArea');
+  if (elementId) {
+    textArea.setAttribute('id', elementId + '-text');
+  }
   textArea.setAttribute('class', 'post-text');
   return textArea;
 }
@@ -115,7 +127,9 @@ function convertToBiggerImg(imgHolderElement, imageWidth, below) { // TODO Rever
   imgElement.getElementsByTagName('img')[0].style = 'width: ' + imageWidth + '%; height: auto;';
   imgElement.getElementsByTagName('img')[0].src = imgElement.href;
   imageCell.appendChild(imgElement);
-  imageCell.appendChild(document.createElement('span'));
+  var imgCaption = document.createElement('span');
+  imgCaption.appendChild(document.createTextNode(CONSTANT_INSERT_TEXT));
+  imageCell.appendChild(imgCaption);
   centerDiv.appendChild(imageCell);
   var clearDiv = document.createElement('div');
   clearDiv.setAttribute('class', 'CSS_CLEAR_BOTH_NO_HEIGHT-cell');
@@ -124,13 +138,13 @@ function convertToBiggerImg(imgHolderElement, imageWidth, below) { // TODO Rever
   var resultDiv = document.getElementById('result');
 
   if (below) {
-    resultDiv.insertBefore(createTextArea(), imgHolderElement.parentElement.parentElement.nextElementSibling.nextElementSibling);
+    resultDiv.insertBefore(createTextArea(imageRowHolder.id), imgHolderElement.parentElement.parentElement.nextElementSibling.nextElementSibling);
     resultDiv.insertBefore(imageRowHolder, imgHolderElement.parentElement.parentElement.nextElementSibling.nextElementSibling);
   } else {
     resultDiv.insertBefore(imageRowHolder, imgHolderElement.parentElement.parentElement);
-    resultDiv.insertBefore(createTextArea(), imgHolderElement.parentElement.parentElement);
+    resultDiv.insertBefore(createTextArea(imageRowHolder.id), imgHolderElement.parentElement.parentElement);
   }
-  
+
   imgHolderElement.parentNode.removeChild(imgHolderElement);
 }
 
@@ -139,6 +153,14 @@ function convertToBiggerImg(imgHolderElement, imageWidth, below) { // TODO Rever
 /* --- Create post --- */
 
 function createPost() {
+  var resultDiv = document.getElementById('created-post');
+  if (!resultDiv) {
+    resultDiv = document.createElement('div');
+    resultDiv.setAttribute('id', 'created-post');
+    document.getElementsByTagName('body')[0].appendChild(resultDiv);
+  } else {
+    resultDiv.innerHTML = '';
+  }
   var resultText = document.createElement('textarea');
   resultText.setAttribute('class', 'post-text');
   var elements = document.getElementById('result').childNodes;
@@ -153,7 +175,11 @@ function createPost() {
       }
     }
   });
-  document.getElementsByTagName('body')[0].appendChild(resultText);
+  // TODO Odstrani 'Vnesi besedilo' iz post-a
+  resultText.textContent = formatHtml(resultText.textContent);
+  resultDiv.appendChild(document.createElement('hr'));
+  resultDiv.appendChild(document.createTextNode('Kopiraj v Blogger:'));
+  resultDiv.appendChild(resultText);
 }
 
 function getOuterHtml(who) {
@@ -189,8 +215,78 @@ function hasClass(element, cls) {
   return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
+function formatHtml(html) {
+  var formatted = '';
+  var reg = /(>)(<)(\/*)/g;
+  html = html.replace(reg, '$1\r\n$2$3');
+  var pad = 0;
+  html.split('\r\n').forEach(function (node, index) {
+    var indent = 0;
+    if (node.match(/.+<\/\w[^>]*>$/)) {
+      indent = 0;
+    } else if (node.match(/^<\/\w/)) {
+      if (pad != 0) {
+        pad -= 1;
+      }
+    } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+      indent = 1;
+    } else {
+      indent = 0;
+    }
+    var padding = '';
+    for (var i = 0; i < pad; i++) {
+      padding += ' ';
+    }
+    formatted += padding + node + '\r\n';
+    pad += indent;
+  });
+  return formatted;
+}
+
+function removeEmptyParent(element) {
+  if (element.getElementsByTagName('a').length === 0) {
+    element.parentElement.removeChild(document.getElementById(element.id + '-text'));
+    element.parentElement.removeChild(element);
+  }
+}
 /* --- Util --- End */
 
+/* --- Image caption dialog --- */
+var captionToEdit;
+
+function openCaptionDialog(element) {
+  captionToEdit = element;
+  var dialogDiv = document.getElementById('caption-dialog');
+  if (!dialogDiv) {
+    dialogDiv = document.createElement('div');
+    dialogDiv.setAttribute('id', 'caption-dialog');
+    var dialogContentDiv = document.createElement('div');
+    var captionFieldElement = document.createElement('input');
+    captionFieldElement.setAttribute('id', 'captionField');
+    var confirmCaptionBtn = document.createElement('button');
+    confirmCaptionBtn.setAttribute('onclick', 'hideCaptionDialog();');
+    confirmCaptionBtn.innerHTML = 'OK';
+    dialogContentDiv.appendChild(document.createTextNode('Vnesi besedilo pod sliko:'));
+    dialogContentDiv.appendChild(captionFieldElement);
+    dialogContentDiv.appendChild(confirmCaptionBtn);
+    var clearDiv = document.createElement('span');
+    clearDiv.setAttribute('class', 'clear');
+    dialogContentDiv.appendChild(clearDiv);
+    dialogDiv.appendChild(dialogContentDiv);
+
+    document.body.appendChild(dialogDiv);
+  } else {
+    dialogDiv.removeAttribute('class');
+  }
+  captionField.value = element.innerHTML === CONSTANT_INSERT_TEXT ? '' : element.innerHTML;
+}
+
+function hideCaptionDialog(element) {
+  captionToEdit.innerHTML = captionField.value === '' ? CONSTANT_INSERT_TEXT : captionField.value;
+  document.getElementById("caption-dialog").setAttribute("class", "hide");
+  captionField.value = '';
+}
+/* --- Image caption dialog --- End */
 
 /* --- Dragging --- */
 
@@ -225,13 +321,16 @@ function handleDrop(e) {
   }
   if (dragSrcEl != this) {
     if (e.ctrlKey) {
-      this.parentElement.appendChild(document.getElementById(e.dataTransfer.getData('text')));
+      var dropedElement = document.getElementById(e.dataTransfer.getData('text'))
+      var dropedParentElement = dropedElement.parentElement.parentElement;
+      dropedElement.getElementsByTagName('img')[0].removeAttribute('style');
+      this.parentElement.appendChild(dropedElement);
+      removeEmptyParent(dropedParentElement);
     } else {
       dragSrcEl.innerHTML = this.innerHTML;
       this.innerHTML = e.dataTransfer.getData('text/html');
     }
   }
-
   return false;
 }
 
@@ -243,7 +342,13 @@ function handleDragEnd(e) {
 }
 
 function handleClick(e) {
-  convertToBiggerImg(this, 80, e.altKey);
+  if (e.target.tagName === 'SPAN') {
+    openCaptionDialog(e.target);
+  } else {
+    // TODO Prevent biger and biger image
+    convertToBiggerImg(this, 80, e.altKey);
+    prepareDraging();
+  }
 }
 
 function prepareDraging() {
