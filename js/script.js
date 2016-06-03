@@ -177,6 +177,7 @@ function createPost() {
   });
   // TODO Odstrani 'Vnesi besedilo' iz post-a
   resultText.textContent = formatHtml(resultText.textContent);
+  resultText.textContent = resultText.textContent.replace(/Vnesi besedilo/g, '');
   resultDiv.appendChild(document.createElement('hr'));
   resultDiv.appendChild(document.createTextNode('Kopiraj v Blogger:'));
   resultDiv.appendChild(resultText);
@@ -263,6 +264,7 @@ function openCaptionDialog(element) {
     var dialogContentDiv = document.createElement('div');
     var captionFieldElement = document.createElement('input');
     captionFieldElement.setAttribute('id', 'captionField');
+    captionFieldElement.setAttribute('onkeypress', 'hideCaptionDialog(event);');
     var confirmCaptionBtn = document.createElement('button');
     confirmCaptionBtn.setAttribute('onclick', 'hideCaptionDialog();');
     confirmCaptionBtn.innerHTML = 'OK';
@@ -279,9 +281,13 @@ function openCaptionDialog(element) {
     dialogDiv.removeAttribute('class');
   }
   captionField.value = element.innerHTML === CONSTANT_INSERT_TEXT ? '' : element.innerHTML;
+  captionField.focus();
 }
 
-function hideCaptionDialog(element) {
+function hideCaptionDialog(keyEvent) {
+  if (keyEvent.keyCode !== 13) {
+    return;
+  }
   captionToEdit.innerHTML = captionField.value === '' ? CONSTANT_INSERT_TEXT : captionField.value;
   document.getElementById("caption-dialog").setAttribute("class", "hide");
   captionField.value = '';
