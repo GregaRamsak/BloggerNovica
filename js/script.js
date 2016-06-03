@@ -24,7 +24,6 @@ function convert(numbOfImg, singleImageWidth) {
     for (i = 0; i < imgArray.length; i++) {
       var imageCell = document.createElement('div');
       imageCell.setAttribute('id', generateUUID());
-      imageCell.setAttribute('title', 'Klikni za večjo sliko.');
       imageCell.setAttribute('class', 'image-cell');
       imageCell.setAttribute('draggable', 'true');
       var imgElement = imgArray[i];
@@ -47,10 +46,8 @@ function convert(numbOfImg, singleImageWidth) {
     resultDiv.appendChild(createTextArea(imageRowHolder.id));
   } // end for
   resultDiv.appendChild(createSignatureTextArea());
-  document.getElementById('resultText').textContent = resultDiv.innerHTML;
 
   prepareDraging();
-
   insertCreatePostBtn();
 }
 
@@ -113,7 +110,7 @@ function insertAfter(newNode, referenceNode) {
 
 /* --- Convert to bigger image  --- */
 
-function convertToBiggerImg(imgHolderElement, imageWidth, below) { // TODO Revert option; return to old parent
+function convertToBiggerImg(imgHolderElement, imageWidth, below) {
   var imgElement = imgHolderElement.firstChild;
   var imageRowHolder = document.createElement('div');
   imageRowHolder.setAttribute('id', generateUUID());
@@ -175,7 +172,6 @@ function createPost() {
       }
     }
   });
-  // TODO Odstrani 'Vnesi besedilo' iz post-a
   resultText.textContent = formatHtml(resultText.textContent);
   resultText.textContent = resultText.textContent.replace(/Vnesi besedilo/g, '');
   resultDiv.appendChild(document.createElement('hr'));
@@ -285,7 +281,7 @@ function openCaptionDialog(element) {
 }
 
 function hideCaptionDialog(keyEvent) {
-  if (keyEvent.keyCode !== 13) {
+  if (keyEvent && keyEvent.keyCode && keyEvent.keyCode !== 13) {
     return;
   }
   captionToEdit.innerHTML = captionField.value === '' ? CONSTANT_INSERT_TEXT : captionField.value;

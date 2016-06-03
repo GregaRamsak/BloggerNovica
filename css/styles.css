@@ -5,7 +5,7 @@
 }
 
 *:focus {
-    outline: none;
+  outline: none;
 }
 
 * body {
@@ -101,6 +101,20 @@ hr {
   clear: both;
 }
 
+div.instructions {
+  float: right;
+}
+
+table.settings div.instructions table,
+table.settings div.instructions table tr,
+table.settings div.instructions table td {
+  padding: 0px;
+}
+
+.instructions tr td:first-child {
+  color: rgba(79, 152, 239, 0.6);
+}
+
 
 /* --- Components --- */
 
@@ -167,34 +181,42 @@ button:hover {
 
 /* --- Components --- End */
 
+
 /* --- Scrollbar --- */
 
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: rgba(79, 152, 239, 0.2);
+  background: rgba(79, 152, 239, 0.4);
   border-radius: 50px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(79, 152, 239, 0.4);
+  background: rgba(79, 152, 239, 0.6);
 }
+
 ::-webkit-scrollbar-thumb:active {
-  background: rgba(79, 152, 239, 0.4);
+  background: rgba(79, 152, 239, 0.6);
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-track:hover {
   background: rgba(79, 152, 239, 0.1);
 }
-::-webkit-scrollbar-track:active {
-}
+
+::-webkit-scrollbar-track:active {}
+
 ::-webkit-resizer {
   background: none;
   border: 6px solid rgba(79, 152, 239, 0.4);
@@ -205,6 +227,7 @@ button:hover {
 ::-webkit-scrollbar-corner {
   background: none;
 }
+
 
 /* --- Scrollbar --- End */
 

@@ -18,7 +18,6 @@
       <thead>
         <tr>
           <th>Slike iz bloga</th>
-          <th style="display: none;">Slike za blog</th>
         </tr>
       </thead>
       <tr>
@@ -26,50 +25,70 @@
           <textarea id="inputText" name="inputText">
           </textarea>
         </td>
-        <td style="display: none;">
-          <textarea id="resultText">
-          </textarea>
-        </td>
       </tr>
       <tr>
         <td>
+          <table style="width: 100%;">
+            <tr>
+              <td>
 
-          <table class="settings">
-            <tr>
-              <td>Združi slike po:</td>
-              <td>
-                <input id="numbOfImg" name="numbOfImg" type="number" value="3" style="width: 50px;" />
+                <table class="settings">
+                  <tr>
+                    <td>Združi slike po:</td>
+                    <td>
+                      <input id="numbOfImg" name="numbOfImg" type="number" value="3" style="width: 50px;" />
+                    </td>
+                    <td>
+                      <button onclick="convert(numbOfImg.value);">Pretvori</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Nastavi širino slike:</td>
+                    <td>
+                      <input id="imgWidth" name="imgWidth" type="number" value="80" style="width: 50px;" /> %</td>
+                    <td>
+                      <button onclick="convert(1, imgWidth.value);">Pretvori</button>
+                    </td>
+                  </tr>
+                </table>
               </td>
               <td>
-                <button onclick="convert(numbOfImg.value);" />Pretvori</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Nastavi širino slike:</td>
-              <td>
-                <input id="imgWidth" name="imgWidth" type="number" value="80" style="width: 50px;" /> %</td>
-              <td>
-                <button onclick="convert(1, imgWidth.value);" />Pretvori</button>
+                <div class="instructions">
+                  Navodila:
+                  <table>
+                    <tr>
+                      <td>Drag</td>
+                      <td>Zamenja sliko</td>
+                    </tr>
+                    <tr>
+                      <td>Drag + Ctrl</td>
+                      <td>Doda sliko v skupino</td>
+                    </tr>
+                    <tr>
+                      <td>Click</td>
+                      <td>Poveča sliko nad skupino</td>
+                    </tr>
+                    <tr>
+                      <td>Click + Alt</td>
+                      <td>Poveča sliko pod skupino</td>
+                    </tr>
+                  </table>
+                </div>
               </td>
             </tr>
           </table>
-
         </td>
       </tr>
     </table>
   </div>
+  
   <hr />
 
   <div id="content">
     <div id="hiddenImg" style="width: 0px; height: 0px; display: none;"></div>
     <div id="result"></div>
   </div>
-  <script>
-    inputText.value = '<a href="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s1600/DSC03157%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://2.bp.blogspot.com/-lb7jKo2QNDU/VzyBov67cLI/AAAAAAAABhI/ZWovqj5BeqA1uvmqhSsl6y0Te2PeElcjACLcB/s320/DSC03157%2B%2528Custom%2529.JPG"></a><a href="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s1600/DSC03161%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://1.bp.blogspot.com/-DEYfYHXjyyE/VzyBoqPIJdI/AAAAAAAABhM/5IcAXDqFWAgnq0nL8IkVh48D0MGwcIWhQCLcB/s320/DSC03161%2B%2528Custom%2529.JPG"></a><a href="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s1600/DSC03172%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://4.bp.blogspot.com/-fOTw0lDzDJ0/VzyBorCfZlI/AAAAAAAABhQ/BwEt5UP0-0UdLSNwUrMuDsh_Pke7hz8wgCLcB/s320/DSC03172%2B%2528Custom%2529.JPG"></a><a href="https://3.bp.blogspot.com/-NdrF0vtc6MY/VzyBoxgNoFI/AAAAAAAABhU/I-i9J1h4fk0inmOxEZpxbCwvC1v68B3BACLcB/s1600/DSC03188%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://3.bp.blogspot.com/-NdrF0vtc6MY/VzyBoxgNoFI/AAAAAAAABhU/I-i9J1h4fk0inmOxEZpxbCwvC1v68B3BACLcB/s320/DSC03188%2B%2528Custom%2529.JPG"></a><a href="https://3.bp.blogspot.com/-g6KH1mmdgx0/VzyBo7KoLfI/AAAAAAAABhY/7aP0P57F9ugMdkC0Ce6bdNjN_Hp9oSqtACLcB/s1600/DSC03300%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://3.bp.blogspot.com/-g6KH1mmdgx0/VzyBo7KoLfI/AAAAAAAABhY/7aP0P57F9ugMdkC0Ce6bdNjN_Hp9oSqtACLcB/s320/DSC03300%2B%2528Custom%2529.JPG"></a><a href="https://4.bp.blogspot.com/-XSgTfUOvEoA/VzyBpFOdeGI/AAAAAAAABhc/KFqngFzVSrAWijf29pGj85Nm5OUYP05VwCLcB/s1600/DSC03362%2B%2528Custom%2529.JPG" imageanchor="1"><img border="0" src="https://4.bp.blogspot.com/-XSgTfUOvEoA/VzyBpFOdeGI/AAAAAAAABhc/KFqngFzVSrAWijf29pGj85Nm5OUYP05VwCLcB/s320/DSC03362%2B%2528Custom%2529.JPG"></a>';
-    convert(3);
-    
-//    openCaptionDialog();
-  </script>
+
 </body>
 
 </html>
