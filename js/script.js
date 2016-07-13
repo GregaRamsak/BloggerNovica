@@ -27,6 +27,8 @@ function convert(numbOfImg, singleImageWidth) {
       imageCell.setAttribute('class', 'image-cell');
       imageCell.setAttribute('draggable', 'true');
       var imgElement = imgArray[i];
+      imgElement.getElementsByTagName('img')[0].removeAttribute("width");
+      imgElement.getElementsByTagName('img')[0].removeAttribute("height");
       if (singleImageWidth !== undefined) { // Add style for single image
         imgElement.getElementsByTagName('img')[0].style = 'width: ' + singleImageWidth + '%; height: auto;';
         imgElement.getElementsByTagName('img')[0].src = imgElement.href;
