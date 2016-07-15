@@ -156,6 +156,7 @@ function createPost() {
   if (!resultDiv) {
     resultDiv = document.createElement('div');
     resultDiv.setAttribute('id', 'created-post');
+    resultDiv.setAttribute('class', 'wrapper');
     document.getElementsByTagName('body')[0].appendChild(resultDiv);
   } else {
     resultDiv.innerHTML = '';
@@ -177,7 +178,10 @@ function createPost() {
   resultText.textContent = formatHtml(resultText.textContent);
   resultText.textContent = resultText.textContent.replace(/Vnesi besedilo/g, '');
   resultDiv.appendChild(document.createElement('hr'));
-  resultDiv.appendChild(document.createTextNode('Kopiraj v Blogger:'));
+  var copyText = resultDiv.appendChild(document.createElement('span'));
+  copyText.setAttribute('class', 'copy-text');
+  copyText.appendChild(document.createTextNode('Kopiraj v Blogger:'));
+  resultDiv.appendChild(copyText);
   resultDiv.appendChild(resultText);
 }
 

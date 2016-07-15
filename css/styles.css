@@ -37,15 +37,14 @@
 }
 
 #created-post textarea {
-  max-width: 670px;
-  width: 100%;
+  width: 80%;
+  min-width: 700px;
   height: 30em;
   margin: 0 auto;
   margin-top: .5em;
 }
 
-#content-table,
-#content-table textarea {
+#content-table {
   width: 100%;
 }
 
@@ -56,11 +55,12 @@
 
 textarea {
   overflow-y: scroll;
+  width: calc(100% - 8px);
+  padding: 0 3px;
 }
 
 thead th {
   text-align: left;
-  padding-left: 1em;
 }
 
 table#content-table {
@@ -81,21 +81,26 @@ hr {
   height: 0;
   border: 0;
   border-top: solid 1px #333;
+  margin: 10px 0;
 }
 
 .post-text {
-  width: 100%;
-  height: 4em;
-  height: 3.5em;
+  height: 5em;
   display: block;
   background-color: #000000;
+}
+
+.copy-text {
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .signature-text {
   color: #999999;
   font-family: monospace;
   text-align: right;
-  margin-top: .5em;
+  margin-top: 10px;
 }
 
 .create-post-btn {
@@ -123,7 +128,7 @@ table.settings div.instructions table td {
 /* --- Components --- */
 
 table.settings td {
-  padding: .5em;
+  padding: 10px;
 }
 
 input,
