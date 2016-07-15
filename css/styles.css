@@ -12,6 +12,12 @@
   background-color: #000;
 }
 
+.wrapper {
+  width: 80%;
+  min-width: 700px;
+  margin: 0 auto;
+}
+
 .CSS_CLEAR_BOTH_NO_HEIGHT {
   height: 0;
   overflow: hidden;
@@ -114,8 +120,6 @@ table.settings div.instructions table td {
 .instructions tr td:first-child {
   color: rgba(79, 152, 239, 0.6);
 }
-
-
 /* --- Components --- */
 
 table.settings td {
@@ -177,11 +181,7 @@ button:hover {
   margin-right: .5em;
   margin-top: .5em;
 }
-
-
 /* --- Components --- End */
-
-
 /* --- Scrollbar --- */
 
 ::-webkit-scrollbar {
@@ -227,11 +227,7 @@ button:hover {
 ::-webkit-scrollbar-corner {
   background: none;
 }
-
-
 /* --- Scrollbar --- End */
-
-
 /* --- Dragging --- */
 
 [draggable],
@@ -252,6 +248,4 @@ img {
 .image-cell span:hover {
   background: #555;
 }
-
-
 /* --- Dragging --- End */
